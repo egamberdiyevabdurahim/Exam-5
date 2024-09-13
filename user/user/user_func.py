@@ -255,12 +255,14 @@ def post_petition(email: str) -> None:
         print(error+"Invalid region ID. Please try again.")
         region_id = input(re_enter+"Re-Enter region ID for this petition: ")
 
+    listed_cities = list()
     cities = get_cities_by_region_query(int(region_id))
     for city in cities:
         print(prints+f"{city['id']}. {city['name']}")
+        listed_cities.append(city['id'])
 
     city_id = input(enter+"Enter city ID for this petition: ")
-    while not get_city_by_id_query(int(city_id)):
+    while city_id not in str(listed_cities):
         print(error+"Invalid city ID. Please try again.")
         city_id = input(re_enter+"Re-Enter city ID for this petition: ")
 

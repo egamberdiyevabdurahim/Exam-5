@@ -88,3 +88,20 @@ def get_all_regions_query() -> list:
     """
     query = "SELECT * FROM region WHERE status = %s;"
     return execute_query(query, (True,), "all")
+
+
+def get_total_votes_by_region_query() -> list:
+    """
+    Retrieves the total number of votes for each region.
+    """
+    query = """
+    SELECT r.id, r.name, SUM(p.total_voices) AS total_votes
+    FROM petition p
+    JOIN city c ON p.city_id = c.id
+    JOIN region r ON c.region_id = r.id
+    WHERE p.status = TRUE
+    GROUP BY r.id, r.name
+    HAVING SUM(p.total_voices) > 0
+    ORDER BY total_votes DESC;
+    """
+    return execute_query(query, (True,), "all")

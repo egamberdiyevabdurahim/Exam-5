@@ -95,7 +95,7 @@ def get_cities_by_region_query(region_id: int) -> list:
     return execute_query(query, (region_id, True), "all")
 
 
-def get_all_cities() -> list:
+def get_all_cities_query() -> list:
     """
     Retrieves all cities from the city table.
 
@@ -103,4 +103,19 @@ def get_all_cities() -> list:
     list: A list of city details.
     """
     query = "SELECT * FROM city WHERE status = %s;"
+    return execute_query(query, (True,), "all")
+
+
+def get_total_votes_by_city_query():
+    """
+    Retrieves the total number of votes for each city.
+    """
+    query = """
+    SELECT c.id, c.name, COUNT(p.id) AS total_votes
+    FROM city c
+    JOIN petition p ON c.id = p.city_id
+    WHERE p.status = %s
+    GROUP BY c.id, c.name
+    HAVING COUNT(p.total_voices) > 0
+    ORDER BY total_votes DESC;;"""
     return execute_query(query, (True,), "all")

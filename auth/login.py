@@ -33,7 +33,7 @@ def login():
         print(error+"Invalid password. Please try again.")
         return None
 
-    # if send_confirmation(email) is not True:
-    #     return None, None
+    if send_confirmation(email) is not True:
+        return None, None
 
     return email_data['email'], "user"

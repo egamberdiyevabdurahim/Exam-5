@@ -53,3 +53,33 @@ def user_printer(user_data):
           f"Last Name: {user_data['last_name']}. Email: {get_email_by_id_query(user_data['email_id'])['email']}\n"
           f"Phone Number: {get_phone_number_by_id_query(user_data['phone_number_id'])['phone_number']}")
 
+
+def region_printer(region_data):
+    """
+    Prints a formatted region.
+
+    Args:
+    region_data (dict): A dictionary containing the region data.
+    """
+    print(prints+f"Region ID: {region_data['id']}. Name: {region_data['name']}\n")
+
+
+def city_printer(city_data):
+    """
+    Prints a formatted city.
+
+    Args:
+    city_data (dict): A dictionary containing the city data.
+    """
+    region_data = get_region_by_id_query(city_data['region_id'])
+    print(prints+f"City ID: {city_data['id']}. Name: {city_data['name']}. Region: {region_data['name']}")
+
+
+def category_printer(category_data):
+    """
+    Prints a formatted category.
+
+    Args:
+    category_data (dict): A dictionary containing the category data.
+    """
+    print(prints+f"Category ID: {category_data['id']}. Name: {category_data['name']}")

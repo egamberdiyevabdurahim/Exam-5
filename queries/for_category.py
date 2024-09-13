@@ -88,3 +88,23 @@ def get_all_categories_query() -> list:
     """
     query = "SELECT * FROM category WHERE status = %s;"
     return execute_query(query, (True,), "all")
+
+
+def get_total_votes_by_category_query() -> list:
+    """
+    Retrieves the total number of votes for each category.
+
+    Returns:
+    list: A list of tuples, where each tuple contains the category ID and its total votes.
+    """
+    query = """
+    SELECT c.id, c.name, COUNT(v) AS total_votes
+    FROM category c
+    JOIN petition p ON c.id = p.category_id
+    JOIN voice v ON p.id = v.petition_id
+    WHERE c.status = %s
+    GROUP BY c.id, c.name
+    HAVING COUNT(v) > 0
+    ORDER BY total_votes DESC;
+    """
+    return execute_query(query, (True,), "all")
