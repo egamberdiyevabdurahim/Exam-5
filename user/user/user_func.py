@@ -1,5 +1,5 @@
 from queries.for_category import get_all_categories_query, get_category_by_id_query
-from queries.for_city import get_cities_by_region_query, get_city_by_id_query
+from queries.for_city import get_cities_by_region_query
 from queries.for_email import get_email_by_email_query, insert_email_query, get_all_emails_query
 from queries.for_phone_number import insert_phone_number_query, get_all_phone_numbers_query, \
     get_phone_number_by_phone_number_query
@@ -76,10 +76,13 @@ def vote(email: str) -> None:
             petition_printer(petition)
             print(prints+f"\nTotal Votes: {petition['total_voices']}")
             print(""*20)
-            listed_data.append(petition['id'])
+            listed_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter the petition ID you want to vote for: ")
-    while petition_id not in str(listed_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in listed_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
         petition_id = input(re_enter+"Re-Enter the petition ID you want to vote for: ")
 
@@ -107,12 +110,15 @@ def view_my_votes(email: str) -> None:
         petition_data = get_petition_by_id_query(voice['petition_id'])
         petition_printer(petition_data)
         print("-"*20)
-        voiced_data.append(petition_data['id'])
+        voiced_data.append(int(petition_data['id']))
 
     petition_id = input(enter+"Enter petition ID to get all info: ")
-    while petition_id not in str(voiced_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in voiced_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
-        petition_id = input(re_enter+"Re-Enter the petition ID to get all info: ")
+        petition_id = input(re_enter+"Re-Enter petition ID to get all info: ")
 
     full_petition_viewer(int(petition_id))
 
@@ -158,7 +164,8 @@ def vote_with_another_number() -> None:
             print(error+"Bunday Emaillik Xaqiqiy User Mavjud Faqat Ovoz Berish Uchun Yasalgan User Emas!")
             return None
 
-        send_confirmation(email)
+        if send_confirmation(email) is not True:
+            return None
 
         insert_user_for_vote_query(email_id['id'], phone_number_id['id'])
         user_data = get_user_for_vote_by_email_id_query(email_id['id'])
@@ -259,10 +266,13 @@ def post_petition(email: str) -> None:
     cities = get_cities_by_region_query(int(region_id))
     for city in cities:
         print(prints+f"{city['id']}. {city['name']}")
-        listed_cities.append(city['id'])
+        listed_cities.append(int(city['id']))
 
     city_id = input(enter+"Enter city ID for this petition: ")
-    while city_id not in str(listed_cities):
+    while True:
+        if city_id.isnumeric():
+            if int(city_id) in listed_cities:
+                break
         print(error+"Invalid city ID. Please try again.")
         city_id = input(re_enter+"Re-Enter city ID for this petition: ")
 
@@ -300,12 +310,15 @@ def view_all_my_petitions(email: str) -> None:
     for petition in petitions:
         petition_printer(petition)
         print("-"*20)
-        petition_data.append(petition['id'])
+        petition_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition ID to get all info: ")
-    while petition_id not in str(petition_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in petition_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
-        petition_id = input(re_enter+"Re-Enter the petition ID to get all info: ")
+        petition_id = input(re_enter+"Re-Enter petition ID to get all info: ")
 
     full_petition_viewer(int(petition_id))
 
@@ -356,10 +369,13 @@ def get_my_accepted_petitions(email: str) -> None:
     for petition in petitions:
         petition_printer(petition)
         print("-"*20)
-        petition_data.append(petition['id'])
+        petition_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition ID to get all info: ")
-    while petition_id not in str(petition_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in petition_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
         petition_id = input(re_enter+"Re-Enter the petition ID to get all info: ")
 
@@ -384,9 +400,13 @@ def get_my_rejected_petitions(email: str) -> None:
     for petition in petitions:
         petition_printer(petition)
         print("-" * 20)
+        petition_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition ID to get all info: ")
-    while petition_id not in str(petition_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in petition_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
         petition_id = input(re_enter+"Re-Enter the petition ID to get all info: ")
 
@@ -428,10 +448,13 @@ def get_my_won_petitions(email: str) -> None:
     for petition in petitions:
         petition_printer(petition)
         print("-" * 20)
-        petition_data.append(petition['id'])
+        petition_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition ID to get all info: ")
-    while petition_id not in str(petition_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in petition_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
         petition_id = input(re_enter+"Re-Enter the petition ID to get all info: ")
 
@@ -456,10 +479,13 @@ def get_my_lost_petitions(email: str) -> None:
     for petition in petitions:
         petition_printer(petition)
         print("-" * 20)
-        petition_data.append(petition['id'])
+        petition_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition ID to get all info: ")
-    while petition_id not in str(petition_data):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in petition_data:
+                break
         print(error+"Invalid petition ID. Please try again.")
         petition_id = input(re_enter+"Re-Enter the petition ID to get all info: ")
 

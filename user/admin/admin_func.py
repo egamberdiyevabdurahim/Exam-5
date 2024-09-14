@@ -331,14 +331,20 @@ def view_all_accepted_petitions() -> None:
         print(error+"No accepted petitions found.")
         return None
 
+    listed_data = list()
     for petition in petitions_data:
         petition_printer(petition)
         print("-"*20)
+        listed_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition id for full info: ")
-    while not get_petition_by_id_query(int(petition_id)):
-        print(error+"Petition not found.")
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in listed_data:
+                break
+        print(error+"Invalid input. Enter a valid petition id.")
         petition_id = input(re_enter+"Re-Enter petition id: ")
+
 
     full_petition_viewer(int(petition_id))
 
@@ -361,13 +367,18 @@ def view_all_rejected_petitions() -> None:
         print(error+"No rejected petitions found.")
         return None
 
+    listed_data = list()
     for petition in petitions_data:
         petition_printer(petition)
         print("-"*20)
+        listed_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition id for full info: ")
-    while not get_petition_by_id_query(int(petition_id)):
-        print(error+"Petition not found.")
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in listed_data:
+                break
+        print(error+"Invalid input. Enter a valid petition id.")
         petition_id = input(re_enter+"Re-Enter petition id: ")
 
     full_petition_viewer(int(petition_id))
@@ -405,14 +416,19 @@ def view_all_petitions() -> None:
         print(error+"No petitions found.")
         return None
 
+    listed_data = list()
     for petition in petitions_data:
         petition_printer(petition)
         print("-"*20)
+        listed_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition id for full info: ")
-    while not get_petition_by_id_query(int(petition_id)):
-        print(error+"Petition not found.")
-        petition_id = input(re_enter+"Re-Enter petition id: ")
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in listed_data:
+                break
+        print(error + "Invalid petition id.")
+        petition_id = input(re_enter + "Re-Enter petition id: ")
 
     full_petition_viewer(int(petition_id))
 
@@ -438,9 +454,10 @@ def view_all_voiced_users(petition_id: int) -> None:
         user_data = get_user_by_id_query(voice['user_id'])
         phone_number_data = get_phone_number_by_id_query(user_data['phone_number_id'])['phone_number']
 
-        masked_phone_number = '*' * (len(phone_number_data) - 4) + phone_number_data[-4:]
+        masked1 = len(phone_number_data[:5]) * "*"
+        masked2 = masked1+phone_number_data[5:]
 
-        print(f"{counter}: {masked_phone_number}")
+        print(f"{counter}: {masked2}")
 
     print(success + f"Total Voiced Users: {counter}")
     return None
@@ -476,14 +493,17 @@ def view_all_won_petitions() -> None:
         print(error+"No won petitions found.")
         return None
 
-    won_petitions = list()
+    listed_data = list()
     for petition in petitions_data:
         petition_printer(petition)
         print("-"*20)
-        won_petitions.append(petition['id'])
+        listed_data.append(int(petition['id']))
 
     petition_id = input(enter+"Enter petition id for full info: ")
-    while petition_id not in str(won_petitions):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in listed_data:
+                break
         print(error+"Petition not found.")
         petition_id = input(re_enter+"Re-Enter petition id: ")
 
@@ -522,14 +542,17 @@ def view_all_lost_petitions() -> None:
         print(error+"No lost petitions found.")
         return None
 
-    lost_petitions = list()
+    listed_data = list()
     for petition in petitions_data:
         petition_printer(petition)
         print("-" * 20)
-        lost_petitions.append(petition['id'])
+        listed_data.append(int(petition['id']))
 
     petition_id = input(enter + "Enter petition id for full info: ")
-    while petition_id not in str(lost_petitions):
+    while True:
+        if petition_id.isnumeric():
+            if int(petition_id) in listed_data:
+                break
         print(error+"Petition not found.")
         petition_id = input(re_enter+"Re-Enter petition id: ")
 
@@ -747,13 +770,18 @@ def remove_city() -> None:
         print(error+"Region not found.")
         return None
 
+    listed_data = list()
     for city in get_cities_by_region_query(int(region_id)):
         city_printer(city)
+        listed_data.append(int(city['id']))
 
     city_id = input(enter+"Enter city id: ")
-    if not get_city_by_id_query(int(city_id)):
-        print(error+"City not found.")
-        return None
+    while True:
+        if city_id.isnumeric():
+            if int(city_id) in listed_data:
+                break
+        print(error+"Invalid city id. Please try again.")
+        city_id = input(re_enter+"Re-Enter city id: ")
 
     delete_city_query(int(city_id))
     print(success+"City removed successfully.")
@@ -797,14 +825,19 @@ def edit_city() -> None:
         print(error+"Region not found.")
         return None
 
+    listed_data = list()
     for city in get_cities_by_region_query(int(region_id)):
         city_printer(city)
+        listed_data.append(int(city['id']))
 
     city_id = input(enter+"Enter city id: ")
     city_data = get_city_by_id_query(int(city_id))
-    if city_data is None:
-        print(error+"City not found.")
-        return None
+    while True:
+        if city_id.isnumeric():
+            if int(city_id) in listed_data:
+                break
+        print(error+"Invalid city id. Please enter a valid id.")
+        city_id = input(enter+"Enter city id: ")
 
     name = input(enter+"Enter new city name or Tap Enter to Skip: ")
     if not name:

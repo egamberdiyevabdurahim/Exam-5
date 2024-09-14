@@ -61,7 +61,7 @@ def region_printer(region_data):
     Args:
     region_data (dict): A dictionary containing the region data.
     """
-    print(prints+f"Region ID: {region_data['id']}. Name: {region_data['name']}\n")
+    print(prints+f"Region ID: {region_data['id']}. Name: {region_data['name']}")
 
 
 def city_printer(city_data):
